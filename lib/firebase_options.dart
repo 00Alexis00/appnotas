@@ -17,10 +17,7 @@ import 'package:flutter/foundation.dart'
 class DefaultFirebaseOptions {
   static FirebaseOptions get currentPlatform {
     if (kIsWeb) {
-      throw UnsupportedError(
-        'DefaultFirebaseOptions have not been configured for web - '
-        'you can reconfigure this by running the FlutterFire CLI again.',
-      );
+      return web;
     }
     switch (defaultTargetPlatform) {
       case TargetPlatform.android:
@@ -28,15 +25,9 @@ class DefaultFirebaseOptions {
       case TargetPlatform.iOS:
         return ios;
       case TargetPlatform.macOS:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for macos - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return macos;
       case TargetPlatform.windows:
-        throw UnsupportedError(
-          'DefaultFirebaseOptions have not been configured for windows - '
-          'you can reconfigure this by running the FlutterFire CLI again.',
-        );
+        return windows;
       case TargetPlatform.linux:
         throw UnsupportedError(
           'DefaultFirebaseOptions have not been configured for linux - '
@@ -59,11 +50,40 @@ class DefaultFirebaseOptions {
 
   static const FirebaseOptions ios = FirebaseOptions(
     apiKey: 'AIzaSyB8_V9J1JYU828BMMrlo4vhsnMORqdVOVg',
+    appId: '1:553890448396:ios:0bb123b74a99f2ab101a29',
+    messagingSenderId: '553890448396',
+    projectId: 'appnotas-3336f',
+    storageBucket: 'appnotas-3336f.firebasestorage.app',
+    iosBundleId: 'com.alexis.proyecto.appnotas',
+  );
+
+  static const FirebaseOptions web = FirebaseOptions(
+    apiKey: 'AIzaSyAji8sqpW2sxKEvKwItCzEZak6I01uYngw',
+    appId: '1:553890448396:web:b1ad95d96f9e351e101a29',
+    messagingSenderId: '553890448396',
+    projectId: 'appnotas-3336f',
+    authDomain: 'appnotas-3336f.firebaseapp.com',
+    storageBucket: 'appnotas-3336f.firebasestorage.app',
+    measurementId: 'G-JP8WYTSM5G',
+  );
+
+  static const FirebaseOptions macos = FirebaseOptions(
+    apiKey: 'AIzaSyB8_V9J1JYU828BMMrlo4vhsnMORqdVOVg',
     appId: '1:553890448396:ios:4a6e207175803ee2101a29',
     messagingSenderId: '553890448396',
     projectId: 'appnotas-3336f',
     storageBucket: 'appnotas-3336f.firebasestorage.app',
     iosBundleId: 'com.example.appnotas',
+  );
+
+  static const FirebaseOptions windows = FirebaseOptions(
+    apiKey: 'AIzaSyAji8sqpW2sxKEvKwItCzEZak6I01uYngw',
+    appId: '1:553890448396:web:61d4d23960dcb9c0101a29',
+    messagingSenderId: '553890448396',
+    projectId: 'appnotas-3336f',
+    authDomain: 'appnotas-3336f.firebaseapp.com',
+    storageBucket: 'appnotas-3336f.firebasestorage.app',
+    measurementId: 'G-2C1Q400GGD',
   );
 
 }
