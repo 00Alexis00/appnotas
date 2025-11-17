@@ -1,0 +1,48 @@
+{
+  "project_info": {
+    "project_number": "553890448396",
+    "project_id": "appnotas-3336f",
+    "storage_bucket": "appnotas-3336f.firebasestorage.app"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553890448396:android:93ef863f6f1a956d101a29",
+        "android_client_info": {
+          "package_name": "com.alexis.proyecto.appnotas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCihgplOLtgARvhX5tiRzHm1V3sU3Psxjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    },
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:553890448396:android:ef16b160fa28334e101a29",
+        "android_client_info": {
+          "package_name": "com.example.appnotas"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyCihgplOLtgARvhX5tiRzHm1V3sU3Psxjg"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
