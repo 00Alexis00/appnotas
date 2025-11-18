@@ -3,18 +3,23 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomFormTextField extends StatelessWidget {
-  const CustomFormTextField({super.key, required this.nombre, required this.hint, required this.label});
+  const CustomFormTextField({super.key, required this.nombre, required this.hint, required this.label, this.obscure, this.validacion});
 
   final String nombre;
   final String hint;
   final String label;
+  final bool? obscure;
+  final String? Function (String?)? validacion;
 
   @override
   Widget build(BuildContext context) {
     return Container(
       margin: EdgeInsets.symmetric(horizontal: 5.w, vertical: 2.h),
       child: FormBuilderTextField(
+        autovalidateMode: AutovalidateMode.onUserInteraction,
         name: nombre,
+        validator: validacion,
+        obscureText: obscure ?? false,
         decoration: InputDecoration(
           filled: true,
           fillColor: Colors.white,
