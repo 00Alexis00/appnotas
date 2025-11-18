@@ -3,9 +3,11 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomFormTextField extends StatelessWidget {
-  const CustomFormTextField({super.key, required this.nombre});
+  const CustomFormTextField({super.key, required this.nombre, required this.hint, required this.label});
 
   final String nombre;
+  final String hint;
+  final String label;
 
   @override
   Widget build(BuildContext context) {
@@ -14,6 +16,11 @@ class CustomFormTextField extends StatelessWidget {
       child: FormBuilderTextField(
         name: nombre,
         decoration: InputDecoration(
+          filled: true,
+          fillColor: Colors.white,
+          hintText: hint,
+          label: Text(label),
+          labelStyle: TextStyle(color: Colors.lightBlue, fontSize: 18.sp),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: Colors.deepPurple),

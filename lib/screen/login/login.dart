@@ -35,7 +35,7 @@ class _LoginState extends State<Login> {
           SizedBox(
             height: 100.h,
             width: 100.w,
-            child: Image.asset('assets/imagenes/fondo-4.jpg', fit: BoxFit.cover,),
+            child: Image.asset('assets/imagenes/fondo-2.jpeg', fit: BoxFit.cover,),
           ),
           SafeArea(
             child: SingleChildScrollView(
@@ -47,11 +47,35 @@ class _LoginState extends State<Login> {
                       ImagenLogo(),
                       CustomFormTextField(
                         nombre: 'correo',
+                        hint: 'example@example.com',
+                        label: 'Correo',
                       ),
                       CustomFormTextField(
                         nombre: 'password',
+                        hint: 'Enter your password',
+                        label: 'Password',
                       ),
-                    ]
+                      SizedBox(
+                        child: ElevatedButton(onPressed: (){
+                          // boton para iniciar sesion
+                        },
+                        child: Text('Iniciar Sesion'),),
+                      ),
+                      SizedBox(
+                        height: 2.h
+                      ),
+                      Text('O tambien puedes', style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 18.sp),
+                      ),
+                      SizedBox(
+                        child: ElevatedButton(
+                          onPressed: () {
+                            // boton para registrarse
+                            Navigator.pushReplacementNamed(context, '/crear_cuenta');
+                          },
+                          child: Text('Registrarte'),
+                        ),
+                      ),
+                    ],
                   )
                 ),
               ),
