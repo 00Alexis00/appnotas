@@ -1,6 +1,8 @@
+import 'package:appnotas/config/services/auth_services.dart';
 import 'package:appnotas/screen/custom/custom_form_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
 import 'package:sizer/sizer.dart';
 
@@ -18,7 +20,34 @@ class _CrearCuentaState extends State<CrearCuenta> {
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox(
-        child: ElevatedButton(onPressed: (){}, child: Text('Crear cuenta',))
+        child: ElevatedButton(
+          onPressed: () async {
+          SmartDialog.showLoading(
+            msg: 'Crear usuario...',
+            maskColor: Colors.red
+          );
+          _formKey.currentState?.save();
+          if(_formKey.currentState!.validate()==true){
+            final formulario = _formKey.currentState?.value;
+            var response = await AuthServices().createAcount(
+              formulario!['correo'],
+              formulario['password'],
+              formulario['nombre'],
+              formulario['apellido'],
+              formulario['edad']
+            );
+            if(response == 3){
+              SmartDialog.dismiss();
+              if(context.mounted){
+                Navigator.pushNamed(context, 'dashboard');
+              }
+            } else{
+              SmartDialog.dismiss();
+              print('error');
+            }
+          }
+        },
+        child: Text('Crear cuenta',))
       ),
       appBar: AppBar(
         title: Text('Crea tu cuenta',

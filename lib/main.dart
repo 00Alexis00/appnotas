@@ -4,6 +4,7 @@ import 'package:appnotas/firebase_options.dart';
 // import 'package:appnotas/screen/screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:sizer/sizer.dart';
 import 'package:appnotas/config/preferencias/preferencias.dart';
 
@@ -23,6 +24,8 @@ class MyApp extends StatelessWidget {
       builder: (p0,p1,p2) {
         return MaterialApp(
           title: 'Material App',
+          navigatorObservers: [FlutterSmartDialog.observer],
+          builder: FlutterSmartDialog.init(),
           debugShowCheckedModeBanner: false,
           theme: ThemeData(
             colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
