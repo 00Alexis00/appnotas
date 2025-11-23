@@ -29,4 +29,24 @@ class AuthServices {
       }
     }
   }
+
+  singInEmailAndPassword(
+    String correo,
+    String password,
+  ) async {
+    try {
+      UserCredential userCredential = await auth.signInWithEmailAndPassword(
+        email: correo,
+        password: password,
+      );
+
+      if (userCredential.user?.uid != null) {
+        prefs.uid = userCredential.user!.uid;
+        return 3;
+      }
+    } on FirebaseAuthException catch (e) {
+      print(e);
+        return 1;
+    }
+  }
 }

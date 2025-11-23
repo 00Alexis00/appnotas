@@ -1,6 +1,8 @@
+import 'package:appnotas/config/services/auth_services.dart';
 import 'package:appnotas/screen/custom/custom_form_text_field.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
+import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
 import 'package:sizer/sizer.dart';
 
 class Login extends StatefulWidget {
@@ -56,8 +58,28 @@ class _LoginState extends State<Login> {
                         label: 'Password',
                       ),
                       SizedBox(
-                        child: ElevatedButton(onPressed: (){
+                        child: ElevatedButton(onPressed: ()async{
                           // boton para iniciar sesion
+                          SmartDialog.showLoading(
+                            msg: 'Iniciando sesion...',
+                            maskColor: Colors.lightBlue
+                          );
+                          _formKey.currentState?.save();
+                          if(_formKey.currentState!.validate()==true){
+                            final formulario = _formKey.currentState?.value;
+                            var response = await AuthServices().singInEmailAndPassword(
+                              formulario!['correo'],
+                              formulario['password'],);
+                            if(response == 3){
+                              SmartDialog.dismiss();
+                              if(context.mounted){
+                                Navigator.pushReplacementNamed(context, 'dashboard');
+                              }
+                            } else{
+                              SmartDialog.dismiss();
+                              print('error');
+                            }
+                          }
                         },
                         child: Text('Iniciar Sesion'),),
                       ),

@@ -14,7 +14,7 @@ class CrearCuenta extends StatefulWidget {
 }
 
 class _CrearCuentaState extends State<CrearCuenta> {
-  final _formKey = GlobalKey<FormBuilderState>();
+  final _formKey2 = GlobalKey<FormBuilderState>();
   @override
   Widget build(BuildContext context) {
     return Scaffold(
@@ -26,9 +26,9 @@ class _CrearCuentaState extends State<CrearCuenta> {
             msg: 'Crear usuario...',
             maskColor: Colors.red
           );
-          _formKey.currentState?.save();
-          if(_formKey.currentState!.validate()==true){
-            final formulario = _formKey.currentState?.value;
+          _formKey2.currentState?.save();
+          if(_formKey2.currentState!.validate()==true){
+            final formulario = _formKey2.currentState?.value;
             var response = await AuthServices().createAcount(
               formulario!['correo'],
               formulario['password'],
@@ -39,7 +39,7 @@ class _CrearCuentaState extends State<CrearCuenta> {
             if(response == 3){
               SmartDialog.dismiss();
               if(context.mounted){
-                Navigator.pushNamed(context, 'dashboard');
+                Navigator.pushReplacementNamed(context, 'dashboard');
               }
             } else{
               SmartDialog.dismiss();
@@ -59,7 +59,7 @@ class _CrearCuentaState extends State<CrearCuenta> {
       ),
       body: SingleChildScrollView(
         child: FormBuilder(
-          key: _formKey,
+          key: _formKey2,
           child: Column(
             children: [
               CustomFormTextField(
