@@ -1,3 +1,4 @@
+import 'package:appnotas/config/preferencias/preferencias.dart';
 import 'package:appnotas/config/services/auth_services.dart';
 import 'package:appnotas/screen/custom/custom_form_text_field.dart';
 import 'package:flutter/material.dart';
@@ -15,9 +16,11 @@ class Login extends StatefulWidget {
 class _LoginState extends State<Login> {
 
   final _formKey = GlobalKey<FormBuilderState>();
+  var prefs = PreferenciasUsuario();
 
   @override
   Widget build(BuildContext context) {
+    prefs.ultimaPagina ='login';
     return Scaffold(
       appBar: AppBar(
         backgroundColor: Colors.blue,
