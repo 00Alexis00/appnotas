@@ -3,11 +3,12 @@ import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:sizer/sizer.dart';
 
 class CustomFormTextField extends StatelessWidget {
-  const CustomFormTextField({super.key, required this.nombre, required this.hint, required this.label, this.obscure, this.validacion});
+  const CustomFormTextField({super.key, required this.nombre, required this.hint, required this.label, this.obscure, this.validacion, required this.initialValue});
 
   final String nombre;
   final String hint;
   final String label;
+  final String initialValue;
   final bool? obscure;
   final String? Function (String?)? validacion;
 
@@ -18,6 +19,7 @@ class CustomFormTextField extends StatelessWidget {
       child: FormBuilderTextField(
         autovalidateMode: AutovalidateMode.onUserInteraction,
         name: nombre,
+        initialValue: initialValue,
         validator: validacion,
         obscureText: obscure ?? false,
         decoration: InputDecoration(

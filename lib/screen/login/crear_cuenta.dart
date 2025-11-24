@@ -68,7 +68,7 @@ class _CrearCuentaState extends State<CrearCuenta> {
                 label: 'Nombre',
                 validacion: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
-                ]),
+                ]), initialValue: '',
               ),
               CustomFormTextField(
                 nombre: 'apellido',
@@ -76,7 +76,7 @@ class _CrearCuentaState extends State<CrearCuenta> {
                 label: 'Apellido',
                 validacion: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
-                ]),
+                ]), initialValue: '',
               ),
               CustomFormTextField(
                 nombre: 'edad',
@@ -85,7 +85,7 @@ class _CrearCuentaState extends State<CrearCuenta> {
                 validacion: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   FormBuilderValidators.integer(errorText: 'Ingresa un número para la edad'),
-                ]),
+                ]), initialValue: '',
               ),
               CustomFormTextField(
                 nombre: 'correo',
@@ -94,7 +94,7 @@ class _CrearCuentaState extends State<CrearCuenta> {
                 validacion: FormBuilderValidators.compose([
                   FormBuilderValidators.required(),
                   FormBuilderValidators.email(errorText: 'Correo no válido'),
-                ]),
+                ]), initialValue: '',
               ),
               CustomFormTextField(
                 nombre: 'password',
@@ -105,7 +105,7 @@ class _CrearCuentaState extends State<CrearCuenta> {
                   FormBuilderValidators.required(),
                   FormBuilderValidators.minLength(4, errorText:'La contraseña debe tener al menos 4 caracteres'),
                 ]
-                ),
+                ), initialValue: '',
               ),
             ],
           ),

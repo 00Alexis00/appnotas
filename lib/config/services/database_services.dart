@@ -25,8 +25,26 @@ class DatabaseServices {
   agregarNota(String nota){
     notasCollection.add({
       'uidcreador': auth.currentUser!.uid,
-      'texto': nota
+      'texto': nota,
+      'fecha': Timestamp.now()
     });
+  }
+
+  listarNotas(){
+    return notasCollection
+    .where('uidcreador', isEqualTo: auth.currentUser!.uid)
+    .orderBy('fecha')
+    .snapshots();
+    }
+
+  borrarNota(String idNota){
+    notasCollection.doc(idNota).delete();
+  }
+
+  editarNota(String idNota, String texto){
+    notasCollection.doc(idNota).set({
+      'texto': texto
+    },SetOptions(merge: true));
 
   }
 
