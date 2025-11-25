@@ -53,12 +53,12 @@ class _LoginState extends State<Login> {
                       CustomFormTextField(
                         nombre: 'correo',
                         hint: 'example@example.com',
-                        label: 'Correo',
+                        label: 'Correo', initialValue: '',
                       ),
                       CustomFormTextField(
                         nombre: 'password',
                         hint: 'Enter your password',
-                        label: 'Password',
+                        label: 'Password', initialValue: '',
                       ),
                       SizedBox(
                         child: ElevatedButton(onPressed: ()async{
