@@ -23,6 +23,7 @@ class _CrearCuentaState extends State<CrearCuenta> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox(
         child: ElevatedButton(
+          // Reemplaza el onPressed del botón 'Crear cuenta' por este bloque completo:
           onPressed: () async {
             SmartDialog.showLoading(
               msg: 'Crear usuario...',

@@ -5,11 +5,10 @@ import 'package:firebase_auth/firebase_auth.dart';
 class DatabaseServices {
   final auth = FirebaseAuth.instance;
   final CollectionReference usersCollection = FirebaseFirestore.instance
-      .collection('user'); // mantuve 'user' como tenías
+      .collection('user');
   final CollectionReference notasCollection = FirebaseFirestore.instance
       .collection('notas');
 
-  // Ahora recibimos uid y creamos el documento con ese uid (doc(uid).set(...))
   Future<bool> addUsuario(
     String uid,
     String nombre,
@@ -34,28 +33,29 @@ class DatabaseServices {
   }
 
   Future<void> agregarNota(String nota) async {
-    try {
-      final currentUid = auth.currentUser?.uid;
-      if (currentUid == null) {
-        throw Exception('Usuario no autenticado');
-      }
-      await notasCollection.add({
-        'uidcreador': currentUid,
-        'texto': nota,
-        'fecha': Timestamp.now(),
-      });
-    } catch (e) {
-      print('Error agregarNota: $e');
-      rethrow;
+    final currentUid = auth.currentUser?.uid;
+    if (currentUid == null) {
+      throw Exception('Usuario no autenticado');
     }
+    await notasCollection.add({
+      'uidcreador': currentUid,
+      'texto': nota,
+      'fecha': FieldValue.serverTimestamp(),
+    });
   }
 
-  Stream<QuerySnapshot> listarNotas() {
-    final currentUid = auth.currentUser?.uid ?? '';
+  /// Nuevo: lista notas recibiendo explicitamente el uid.
+  Stream<QuerySnapshot> listarNotasForUid(String uid) {
     return notasCollection
-        .where('uidcreador', isEqualTo: currentUid)
+        .where('uidcreador', isEqualTo: uid)
         .orderBy('fecha')
         .snapshots();
+  }
+
+  // Deprecated: mantener compatibilidad si otras partes llaman listarNotas()
+  Stream<QuerySnapshot> listarNotas() {
+    final uid = auth.currentUser?.uid ?? '';
+    return listarNotasForUid(uid);
   }
 
   Future<void> borrarNota(String idNota) async {

@@ -83,23 +83,60 @@ class AuthServices {
 
   Future<int> singInEmailAndPassword(String correo, String password) async {
     try {
+      // Validaciones defensivas
+      correo = correo ?? '';
+      password = password ?? '';
+
+      correo = correo.trim();
+
+      print(
+        'DEBUG: singInEmailAndPassword llamado con correo="$correo" password length=${password.length}',
+      );
+
+      if (correo.isEmpty || password.isEmpty) {
+        print('DEBUG: correo o password vacíos, abortando login');
+        return 1; // tratamos como credenciales inválidas
+      }
+
+      // Intento de login
       UserCredential userCredential = await auth.signInWithEmailAndPassword(
-        email: correo.trim(),
+        email: correo,
         password: password,
+      );
+
+      print(
+        'DEBUG: signInWithEmailAndPassword completado: ${userCredential.user}',
       );
 
       if (userCredential.user?.uid != null) {
         prefs.uid = userCredential.user!.uid;
+        // recargar currentUser para asegurarnos que firebase auth está en estado consistente
+        try {
+          await auth.currentUser?.reload();
+          print('DEBUG: currentUser recargado: ${auth.currentUser}');
+        } catch (e) {
+          print('DEBUG: No se pudo recargar currentUser: $e');
+        }
         return 3;
       } else {
+        print('DEBUG: userCredential.user es null despues del signIn');
         return 0;
       }
     } on FirebaseAuthException catch (e) {
-      print('Auth signIn error: ${e.code} ${e.message}');
-      return 1;
-    } catch (e) {
-      print('Sign in error: $e');
-      return 1;
+      // Mostrar info útil en logs
+      print(
+        'Auth signIn FirebaseAuthException: code=${e.code}, message=${e.message}',
+      );
+      // Para UI devolvemos 1 (credenciales inválidas) o 0 en otros casos
+      if (e.code == 'user-not-found' || e.code == 'wrong-password') {
+        return 1;
+      }
+      return 0;
+    } catch (e, st) {
+      // Esto captura errores tipo NoSuchMethodError (p. ej. trim sobre null) y otros
+      print('Auth signIn error (catch todo): $e\n$st');
+      return 0;
     }
   }
+
 }

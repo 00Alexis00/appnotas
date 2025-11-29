@@ -61,29 +61,68 @@ class _LoginState extends State<Login> {
                         label: 'Password', initialValue: '',
                       ),
                       SizedBox(
-                        child: ElevatedButton(onPressed: ()async{
-                          // boton para iniciar sesion
-                          SmartDialog.showLoading(
-                            msg: 'Iniciando sesion...',
-                            maskColor: Colors.lightBlue
-                          );
-                          _formKey.currentState?.save();
-                          if(_formKey.currentState!.validate()==true){
-                            final formulario = _formKey.currentState?.value;
-                            var response = await AuthServices().singInEmailAndPassword(
-                              formulario!['correo'],
-                              formulario['password'],);
-                            if(response == 3){
-                              SmartDialog.dismiss();
-                              if(context.mounted){
-                                Navigator.pushReplacementNamed(context, 'dashboard');
+                        child: ElevatedButton(
+                          onPressed: () async {
+                            SmartDialog.showLoading(
+                              msg: 'Iniciando sesion...',
+                              maskColor: Colors.lightBlue,
+                            );
+                            try {
+                              _formKey.currentState?.save();
+                              if (_formKey.currentState!.validate() == true) {
+                                final formulario = _formKey.currentState?.value;
+                                final correo = formulario?['correo'];
+                                final password = formulario?['password'];
+
+                                // llamamos al servicio
+                                var response = await AuthServices()
+                                    .singInEmailAndPassword(
+                                      correo ?? '',
+                                      password ?? '',
+                                    );
+
+                                // aseguramos dismiss del loading antes de continuar
+                                try {
+                                  SmartDialog.dismiss();
+                                } catch (_) {}
+
+                                if (response == 3) {
+                                  if (context.mounted) {
+                                    Navigator.pushReplacementNamed(
+                                      context,
+                                      '/dashboard',
+                                    );
+                                  }
+                                } else if (response == 1) {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Credenciales incorrectas'),
+                                    ),
+                                  );
+                                } else {
+                                  ScaffoldMessenger.of(context).showSnackBar(
+                                    const SnackBar(
+                                      content: Text('Error al iniciar sesión'),
+                                    ),
+                                  );
+                                }
+                              } else {
+                                try {
+                                  SmartDialog.dismiss();
+                                } catch (_) {}
                               }
-                            } else{
-                              SmartDialog.dismiss();
-                              print('error');
+                            } catch (e, st) {
+                              try {
+                                SmartDialog.dismiss();
+                              } catch (_) {}
+                              print('Error en onPressed login: $e\n$st');
+                              ScaffoldMessenger.of(context).showSnackBar(
+                                const SnackBar(
+                                  content: Text('Ocurrió un error inesperado'),
+                                ),
+                              );
                             }
-                          }
-                        },
+                          },
                         child: Text('Iniciar Sesion'),),
                       ),
                       SizedBox(
