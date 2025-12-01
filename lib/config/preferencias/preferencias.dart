@@ -22,4 +22,12 @@ class PreferenciasUsuario {
   set uid(String value) {
     _prefs.setString('uid', value);
   }
+
+  bool get theme{
+    return _prefs.getBool('theme') ?? true;
+  }
+
+  set theme(bool value){
+    _prefs.setBool('theme', value);
+  }
 }

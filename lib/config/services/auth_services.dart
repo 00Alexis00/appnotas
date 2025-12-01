@@ -84,8 +84,8 @@ class AuthServices {
   Future<int> singInEmailAndPassword(String correo, String password) async {
     try {
       // Validaciones defensivas
-      correo = correo ?? '';
-      password = password ?? '';
+      // correo = correo ?? '';
+      // password = password ?? '';
 
       correo = correo.trim();
 

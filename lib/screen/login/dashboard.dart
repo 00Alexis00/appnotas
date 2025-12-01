@@ -1,11 +1,14 @@
 // appnotas/lib/screen/login/dashboard.dart
 import 'package:appnotas/config/preferencias/preferencias.dart';
 import 'package:appnotas/config/services/database_services.dart';
+import 'package:appnotas/config/services/theme_provider.dart';
+import 'package:appnotas/config/theme/theme.dart';
 import 'package:appnotas/screen/custom/custom_form_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_form_builder/flutter_form_builder.dart';
 import 'package:form_builder_validators/form_builder_validators.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:cloud_firestore/cloud_firestore.dart';
 
@@ -33,8 +36,10 @@ class _DashboardState extends State<Dashboard> {
         children: [
           FloatingActionButton(
             heroTag: 'floating1',
-            onPressed: () {},
-            child: const Icon(Icons.sunny),
+            onPressed: () {
+              Provider.of<ThemeProvider>(context, listen: false).switchTheme();
+            },
+            child: Icon(Provider.of<ThemeProvider>(context, listen:true).themeData == modoLight? Icons.sunny : Icons.mode_night_outlined),
           ),
           SizedBox(height: 2.h),
           FloatingActionButton(
@@ -44,6 +49,7 @@ class _DashboardState extends State<Dashboard> {
             },
             child: const Icon(Icons.add),
           ),
+          SizedBox(height: 2.h),
         ],
       ),
       appBar: AppBar(

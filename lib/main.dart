@@ -1,10 +1,12 @@
 import 'package:appnotas/config/routes/routes.dart';
+import 'package:appnotas/config/services/theme_provider.dart';
 import 'package:appnotas/firebase_options.dart';
 // import 'package:appnotas/screen/login/login.dart';
 // import 'package:appnotas/screen/screen.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
 import 'package:flutter_smart_dialog/flutter_smart_dialog.dart';
+import 'package:provider/provider.dart';
 import 'package:sizer/sizer.dart';
 import 'package:appnotas/config/preferencias/preferencias.dart';
 
@@ -12,7 +14,12 @@ void main() async {
   WidgetsFlutterBinding.ensureInitialized();
   await PreferenciasUsuario.init();
   await Firebase.initializeApp(options: DefaultFirebaseOptions.currentPlatform);
-  runApp(MyApp());
+  runApp(
+    ChangeNotifierProvider(
+      create:(context) => ThemeProvider(),
+      child: MyApp(),
+    ),
+  );
 }
 
 class MyApp extends StatelessWidget {
@@ -27,9 +34,7 @@ class MyApp extends StatelessWidget {
           navigatorObservers: [FlutterSmartDialog.observer],
           builder: FlutterSmartDialog.init(),
           debugShowCheckedModeBanner: false,
-          theme: ThemeData(
-            colorScheme: ColorScheme.fromSeed(seedColor: Colors.blue),
-          ),
+          theme: Provider.of<ThemeProvider>(context).themeData,
           initialRoute: PreferenciasUsuario().ultimaPagina,
           routes: routes,
         );
