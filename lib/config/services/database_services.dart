@@ -1,4 +1,3 @@
-// appnotas/lib/config/services/database_services.dart
 import 'package:cloud_firestore/cloud_firestore.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 
@@ -44,15 +43,12 @@ class DatabaseServices {
     });
   }
 
-  /// Nuevo: lista notas recibiendo explicitamente el uid.
   Stream<QuerySnapshot> listarNotasForUid(String uid) {
     return notasCollection
         .where('uidcreador', isEqualTo: uid)
         .orderBy('fecha')
         .snapshots();
   }
-
-  // Deprecated: mantener compatibilidad si otras partes llaman listarNotas()
   Stream<QuerySnapshot> listarNotas() {
     final uid = auth.currentUser?.uid ?? '';
     return listarNotasForUid(uid);

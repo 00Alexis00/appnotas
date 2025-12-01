@@ -1,8 +1,6 @@
-// appnotas/lib/screen/login/dashboard.dart
 import 'package:appnotas/config/preferencias/preferencias.dart';
 import 'package:appnotas/config/services/database_services.dart';
 import 'package:appnotas/config/services/theme_provider.dart';
-import 'package:appnotas/config/theme/theme.dart';
 import 'package:appnotas/screen/custom/custom_form_text_field.dart';
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
@@ -29,6 +27,9 @@ class _DashboardState extends State<Dashboard> {
   Widget build(BuildContext context) {
     prefs.ultimaPagina = 'dashboard';
 
+    final themeProvider = Provider.of<ThemeProvider>(context, listen: true);
+    final isLight = themeProvider.themeData.brightness == Brightness.light;
+
     return Scaffold(
       floatingActionButtonLocation: FloatingActionButtonLocation.endDocked,
       floatingActionButton: Column(
@@ -39,7 +40,9 @@ class _DashboardState extends State<Dashboard> {
             onPressed: () {
               Provider.of<ThemeProvider>(context, listen: false).switchTheme();
             },
-            child: Icon(Provider.of<ThemeProvider>(context, listen:true).themeData == modoLight? Icons.sunny : Icons.mode_night_outlined),
+            child: Icon(
+              isLight ? Icons.sunny : Icons.mode_night_outlined,
+            ),
           ),
           SizedBox(height: 2.h),
           FloatingActionButton(
@@ -65,25 +68,20 @@ class _DashboardState extends State<Dashboard> {
         ],
       ),
       body: SafeArea(
-        // Primero, escuchamos el estado de autenticación
         child: StreamBuilder<User?>(
           stream: _auth.authStateChanges(),
           builder: (context, authSnapshot) {
             if (authSnapshot.connectionState == ConnectionState.waiting) {
-              // todavía esperando el estado de auth
               return const Center(child: CircularProgressIndicator());
             }
             final user = authSnapshot.data;
             if (user == null) {
-              // No hay usuario: redirigimos al login (o mostramos mensaje)
-              // Usamos WidgetsBinding.addPostFrameCallback para no llamar Navigator dentro de build inmediatamente
               WidgetsBinding.instance.addPostFrameCallback((_) {
                 Navigator.pushReplacementNamed(context, '/login');
               });
               return const Center(child: Text('Redirigiendo a login...'));
             }
 
-            // Si tenemos usuario, construimos el StreamBuilder de notas con su uid
             return Center(
               child: Container(
                 height: 80.h,
@@ -92,7 +90,6 @@ class _DashboardState extends State<Dashboard> {
                   stream: _dbService.listarNotasForUid(user.uid),
                   builder: (context, snapshot) {
                     if (snapshot.hasError) {
-                      // Muestra un mensaje de error si la consulta falla (por ejemplo reglas)
                       return Center(
                         child: Text('Error al cargar notas: ${snapshot.error}'),
                       );
@@ -100,13 +97,12 @@ class _DashboardState extends State<Dashboard> {
                     if (snapshot.connectionState == ConnectionState.waiting) {
                       return const Center(child: CircularProgressIndicator());
                     }
-                    // snapshot has data (puede ser lista vacía)
                     final notas = snapshot.data?.docs ?? [];
                     if (notas.isEmpty) {
                       return Center(
                         child: Text(
                           'No tienes notas aún',
-                          style: TextStyle(fontSize: 12.sp),
+                          style: TextStyle(fontSize: 16.sp),
                         ),
                       );
                     }
@@ -116,22 +112,35 @@ class _DashboardState extends State<Dashboard> {
                         final doc = notas[index];
                         final texto = doc['texto'] ?? '';
                         return Container(
-                          padding: EdgeInsets.all(10.sp),
+                          padding: EdgeInsets.symmetric(
+                            horizontal: 4.w,
+                            vertical: 2.h,
+                          ),
                           margin: EdgeInsets.only(bottom: 2.h),
                           decoration: BoxDecoration(
                             borderRadius: BorderRadius.circular(12),
                             color: Colors.teal,
                           ),
-                          height: 6.h,
                           child: Row(
-                            mainAxisAlignment: MainAxisAlignment.spaceBetween,
+                            crossAxisAlignment: CrossAxisAlignment.start,
                             children: [
-                              SizedBox(width: 40.w, child: Text(texto)),
+                              Expanded(
+                                child: Text(
+                                  texto,
+                                  softWrap: true,
+                                  style: TextStyle(
+                                    fontSize:
+                                        18.sp,
+                                    color: Colors
+                                        .white,
+                                  ),
+                                ),
+                              ),
                               Row(
+                                mainAxisSize: MainAxisSize.min,
                                 children: [
                                   IconButton(
                                     onPressed: () {
-                                      // abrir diálogo editar con valor actual
                                       mostrarDialogEditar(
                                         context,
                                         texto,
@@ -163,7 +172,6 @@ class _DashboardState extends State<Dashboard> {
     );
   }
 
-  // ... mantener mostrarDialogAgregar y mostrarDialogEditar sin cambios ...
   Future<dynamic> mostrarDialogAgregar(BuildContext context) {
     return showDialog(
       context: context,

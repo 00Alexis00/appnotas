@@ -73,15 +73,11 @@ class _LoginState extends State<Login> {
                                 final formulario = _formKey.currentState?.value;
                                 final correo = formulario?['correo'];
                                 final password = formulario?['password'];
-
-                                // llamamos al servicio
                                 var response = await AuthServices()
                                     .singInEmailAndPassword(
                                       correo ?? '',
                                       password ?? '',
                                     );
-
-                                // aseguramos dismiss del loading antes de continuar
                                 try {
                                   SmartDialog.dismiss();
                                 } catch (_) {}
@@ -130,6 +126,7 @@ class _LoginState extends State<Login> {
                       ),
                       Text('O tambien puedes', style: TextStyle(color: Colors.blueAccent, fontWeight: FontWeight.bold, fontSize: 18.sp),
                       ),
+                      SizedBox(height: 2.h),
                       SizedBox(
                         child: ElevatedButton(
                           onPressed: () {

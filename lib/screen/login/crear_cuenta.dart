@@ -1,4 +1,3 @@
-// appnotas/lib/screen/login/crear_cuenta.dart
 import 'package:appnotas/config/services/auth_services.dart';
 import 'package:appnotas/screen/custom/custom_form_text_field.dart';
 import 'package:flutter/material.dart';
@@ -23,7 +22,6 @@ class _CrearCuentaState extends State<CrearCuenta> {
       floatingActionButtonLocation: FloatingActionButtonLocation.centerFloat,
       floatingActionButton: SizedBox(
         child: ElevatedButton(
-          // Reemplaza el onPressed del botón 'Crear cuenta' por este bloque completo:
           onPressed: () async {
             SmartDialog.showLoading(
               msg: 'Crear usuario...',
@@ -40,7 +38,6 @@ class _CrearCuentaState extends State<CrearCuenta> {
                   formulario['apellido'],
                   formulario['edad'],
                 );
-                // response codes: 3 = success, 2 = email exists / db error, 1 = weak password, 0 = other error
                 if (response == 3) {
                   if (context.mounted) {
                     SmartDialog.dismiss();
@@ -59,7 +56,6 @@ class _CrearCuentaState extends State<CrearCuenta> {
                   ).showSnackBar(SnackBar(content: Text(msg)));
                 }
               } else {
-                // formulario no válido: asegurar que se cierre el loading
                 try {
                   SmartDialog.dismiss();
                 } catch (e) {
@@ -67,7 +63,6 @@ class _CrearCuentaState extends State<CrearCuenta> {
                 }
               }
             } catch (e, st) {
-              // asegurar que se remueva el loading aunque ocurra un error
               try {
                 SmartDialog.dismiss();
               } catch (_) {}
@@ -76,11 +71,10 @@ class _CrearCuentaState extends State<CrearCuenta> {
                 const SnackBar(content: Text('Ocurrió un error inesperado')),
               );
             } finally {
-              // Llamada adicional a dismiss protegida por try/catch para evitar usar getters inexistentes
               try {
                 SmartDialog.dismiss();
               } catch (e) {
-                // si no hay diálogo abierto o ocurre cualquier error, lo ignoramos
+                // e
               }
             }
           },

@@ -24,10 +24,10 @@ class CustomFormTextField extends StatelessWidget {
         obscureText: obscure ?? false,
         decoration: InputDecoration(
           filled: true,
-          fillColor: Colors.white,
+          fillColor: Colors.lightBlue,
           hintText: hint,
           label: Text(label),
-          labelStyle: TextStyle(color: Colors.lightBlue, fontSize: 18.sp),
+          labelStyle: TextStyle(color: Colors.white, fontSize: 18.sp),
           border: OutlineInputBorder(
             borderRadius: BorderRadius.circular(12),
             borderSide: BorderSide(color: Colors.deepPurple),
